@@ -1,0 +1,7 @@
+
+    train: datasets/charts/images/train
+    val: datasets/charts/images/val
+    test: datasets/charts/images/test
+    nc: 13
+    names: ['area', 'heatmap', 'bar', 'interval', 'line', 'manhattan', 'map', 'pie', 'scatter', 'scatter-line', 'surface', 'venn', 'box']
+    

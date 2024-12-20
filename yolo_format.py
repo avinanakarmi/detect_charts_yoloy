@@ -7,6 +7,7 @@
 import os
 import shutil
 from pathlib import Path
+from constants import CLASS_MAPPING
 
 PATH_BASE = './datasets/'
 DESTINATION = f"{PATH_BASE}charts/"
@@ -107,21 +108,6 @@ import xml.etree.ElementTree as ET
 
 PATH_BASE = './datasets/charts/labels'
 FOLDERS = ['train', 'test', 'val']
-CLASS_MAPPING = {
-    "area": 0,
-    "heatmap": 1,
-    "bar": 2,
-    "interval": 3,
-    "line": 4,
-    "manhattan": 5,
-    "map": 6,
-    "pie": 7,
-    "scatter": 8,
-    "scatter-line": 9,
-    "surface": 10,
-    "venn": 11,
-    "box": 12,
-}
 
 for folder in FOLDERS:
   xml_files = glob.glob(f'{PATH_BASE}/{folder}/*.xml')
