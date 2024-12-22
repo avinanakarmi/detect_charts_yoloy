@@ -116,21 +116,28 @@ for folder in FOLDERS:
       root = tree.getroot()
       panel_tree_node = root.find(".//PanelTreeNode")
       if panel_tree_node is not None:
-          x1 = int(panel_tree_node.find("X1").text)
-          y1 = int(panel_tree_node.find("Y1").text)
-          x2 = int(panel_tree_node.find("X2").text)
-          y2 = int(panel_tree_node.find("Y2").text)
-          image_width = x2 - x1
-          image_height = y2 - y1
+          X1 = int(root.find(".//X1").text)
+          Y1 = int(root.find(".//Y1").text)
+          X2 = int(root.find(".//X2").text)
+          Y2 = int(root.find(".//Y2").text)
+
+          image_width = X2
+          image_height = Y2
 
           class_name = root.find(".//Type").text.strip().lower()
           class_id = CLASS_MAPPING.get(class_name, -1)
           if class_id != -1:
-            bbox_width = image_width
-            bbox_height = image_height
-            x_center = image_width / 2
-            y_center = image_height / 2
-            yolo_annotation = f"{class_id} {x_center:.6f} {y_center:.6f} {bbox_width:.6f} {bbox_height:.6f}"
+            x_center = (X1 + X2) / 2
+            y_center = (Y1 + Y2) / 2
+            width = X2 - X1
+            height = Y2 - Y1
+
+            x_center_norm = x_center / image_width
+            y_center_norm = y_center / image_height
+            width_norm = width / image_width
+            height_norm = height / image_height
+
+            yolo_annotation = f"{class_id} {x_center_norm} {y_center_norm} {width_norm} {height_norm}"
             filename = file.split('.xml')[0]
             with open(f"{filename}.txt", "w") as f:
                 f.write(yolo_annotation + "\n")
