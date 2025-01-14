@@ -1,11 +1,13 @@
-from huggingface_hub import HfApi
+from huggingface_hub import upload_file
+from huggingface_hub import login
+login(token="<token>")
 
-api = HfApi()
 repo_id = "an778/multivariate-chart-yolo"
 
-api.upload_file(
-    path_or_fileobj="runs/detect/train/weights/best.pt",
-    path_in_repo="best.pt",                   
+upload_file(
+    path_or_fileobj="./runs/detect/train15/weights/best.pt",
+    path_in_repo="model.pth",
     repo_id=repo_id,
-    repo_type="model"
+    repo_type="model",
+    token="<token>"
 )
