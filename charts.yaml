@@ -1,7 +1,0 @@
-
-    train: charts/images/train
-    val: charts/images/val
-    test: charts/images/test
-    nc: 13
-    names: ['area', 'heatmap', 'bar', 'interval', 'line', 'manhattan', 'map', 'pie', 'scatter', 'scatter-line', 'surface', 'venn', 'box']
-    
