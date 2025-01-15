@@ -33,7 +33,7 @@ for folder in FOLDERS:
     bbox_y1 = text_height if "top" in position else 0
     # chart_bbox = (x1, y1, x2, y2)
     chart_bbox = (0, bbox_y1, chart_width, bbox_y1 + chart_height)
-    file_name_base = file_name.split(".")[0]
+    file_name_base = file_name.split(".jpg")[0]
     with open(f'{PATH_BASE}/labels/{folder}/{file_name_base}.json', 'r') as file:
       data = json.load(file)
     cls = CLASS_MAPPING[data["task1"]["output"]["chart_type"]]
