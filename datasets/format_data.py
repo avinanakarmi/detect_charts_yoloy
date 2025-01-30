@@ -31,8 +31,8 @@ for folder in FOLDERS:
 
     # Chart bounding box
     bbox_y1 = text_height if "top" in position else 0
-    # chart_bbox = (x1, y1, x2, y2)
-    chart_bbox = (0, bbox_y1, chart_width, bbox_y1 + chart_height)
+    bbox_x1 = chart_width if "right" in position else 0
+    chart_bbox = (bbox_x1, bbox_y1, bbox_x1 + chart_width, bbox_y1 + chart_height)
     file_name_base = file_name.split(".jpg")[0]
     with open(f'{PATH_BASE}/labels/{folder}/{file_name_base}.json', 'r') as file:
       data = json.load(file)

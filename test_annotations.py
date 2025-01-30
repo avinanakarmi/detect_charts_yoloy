@@ -29,17 +29,22 @@ def draw_bounding_boxes(image_path, annotation_file):
         x2 = x_center + bbox_width // 2
         y2 = y_center + bbox_height // 2
 
-        # Draw the bounding box on the image (using a random color for visibility)
-        color = (0, 255, 0)  # Green color (you can change this)
-        thickness = 2  # Line thickness
+        color = (0, 0, 255)
+        thickness = 5
         cv2.rectangle(image, (x1, y1), (x2, y2), color, thickness)
 
     # Display the image with the bounding boxes
     cv2.imshow("Image with Bounding Boxes", image)
-    cv2.waitKey(0)
+    cv2.waitKey(1000000)
     cv2.destroyAllWindows()
 
 # Example usage
-image_path = "./datasets/charts/images/test/PMC1790633___g006.jpg"  # Replace with your image path
-annotation_file = "./datasets/charts/labels/test/PMC1790633___g006.txt"  # Replace with your annotation file path (YOLO format)
-draw_bounding_boxes(image_path, annotation_file)
+# image_path = "./datasets/charts/images/train/PMC1790633___g007.jpg"  # Replace with your image path
+# annotation_file = "./datasets/charts/labels/train/PMC1790633___g007.txt"  # Replace with your annotation file path (YOLO format)
+# draw_bounding_boxes(image_path, annotation_file)
+
+
+for filename in os.listdir('./datasets/charts/images/train'):
+    image_path = os.path.join('./datasets/charts/images/train', filename)
+    annotation_file = os.path.join('./datasets/charts/labels/train', filename.split('.jpg')[0] + '.txt')
+    draw_bounding_boxes(image_path, annotation_file)

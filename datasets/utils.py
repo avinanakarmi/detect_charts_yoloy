@@ -10,7 +10,6 @@ from lorem_text import lorem
 
 def create_text_overlay(image, columns=1, position="top", font_size = 12):
     """Overlay text on the chart image."""
-    draw = ImageDraw.Draw(image)
     font = ImageFont.load_default()  # Replace with a TTF font for better visuals if available
 
     # Determine text area size
@@ -31,9 +30,9 @@ def create_text_overlay(image, columns=1, position="top", font_size = 12):
         else:
             text.append(f"{new_line} {word}")
 
-    text_height = font_size * len(text)  # Approximate text height for 3 lines
+    text_height = font_size * len(text)
     # Create overlay
-    overlay = Image.new("RGBA", (image_width, text_height), (255, 255, 255, 255))
+    overlay = Image.new("RGBA", (image_width, image_height if "side" in position else text_height), (255, 255, 255, 255))
     overlay_draw = ImageDraw.Draw(overlay)
     for i, line in enumerate(text):
         overlay_draw.text(xy=(0, i * font_size), 
@@ -53,6 +52,14 @@ def create_text_overlay(image, columns=1, position="top", font_size = 12):
         combined = Image.new("RGBA", (image_width, image_height + text_height))
         combined.paste(image, (0, 0))
         combined.paste(overlay, (0, image_height))
+    elif position == "left_side":
+            combined = Image.new("RGBA", (image_width * 2, image_height))
+            combined.paste(image, (0, 0))
+            combined.paste(overlay, (image_width, 0))
+    elif position == "right_side":
+        combined = Image.new("RGBA", (image_width * 2, image_height))
+        combined.paste(image, (image_width, 0))
+        combined.paste(overlay, (0, 0))
     else:
         raise ValueError("Invalid position. Use 'top' or 'bottom'.")
 
@@ -90,21 +97,21 @@ def generate_annotation(cls, chart_bbox, image_size):
 def process_image(image_path):
     """Process chart images to create variations and annotations."""
     image = Image.open(image_path).convert("RGB")
-    image_width, image_height = image.size
 
     scenarios = [
         (1, "top"), (1, "bottom"), (1, "top_and_bottom"),
         (2, "top_and_bottom"), (2, "top"), (2, "bottom"),
+        (1, "left_side"), (1, "right_side")
     ]
 
-    idx = random.randint(0, 5)
+    idx = random.randint(0, 7)
     (columns, position) = scenarios[idx]
     modified_image = image.copy()
     font_size = 12
 
     if position == "top_and_bottom":
         modified_image, text_height = create_text_overlay(modified_image, columns, "top", font_size)
-        modified_image, text_height = create_text_overlay(modified_image, columns, "bottom", font_size)
+        modified_image, _ = create_text_overlay(modified_image, columns, "bottom", font_size)
     else:
         modified_image, text_height = create_text_overlay(modified_image, columns, position, font_size)
 
